@@ -1,3 +1,3 @@
 __author__ = 'sandeep'
 
-RR_URL = 'http://roadrunnr.in'
+RR_URL = 'http://roadrunnr.in/'
