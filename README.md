@@ -4,7 +4,7 @@ Python client for APIs of RoadRunnr (http://roadrunnr.in/)
 ### Installation
 
 ```
-git+https://github.com/Sandeep4/roadrunnr.git#egg=roadrunnr
+pip install roadrunnr
 ```
 
 ### Usage
