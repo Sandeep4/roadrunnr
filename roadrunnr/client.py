@@ -6,7 +6,7 @@ from .errors import HTTPError
 
 
 class RoadRunnrClient(object):
-    def __init__(self, client_id, client_secret, server_url=None):
+    def __init__(self, client_id, client_secret, server_url=None, timeout=10):
         """
         :param client_id: RoadRunnr client id.
         :param client_secret: RoadRunnr client secret.
@@ -20,6 +20,7 @@ class RoadRunnrClient(object):
 
         self.CLIENT_ID = client_id
         self.CLIENT_SECRET = client_secret
+        self.timeout = timeout
         self.TOKEN = self.get_new_access_token()
         self.HEADERS = {"Content-Type": "application/json", "Authorization": "Token "+self.TOKEN}
 
@@ -33,7 +34,7 @@ class RoadRunnrClient(object):
         params = {"grant_type": "client_credentials",
                   "client_id": self.CLIENT_ID,
                   "client_secret": self.CLIENT_SECRET}
-        response = requests.get(API_URL, params=params)
+        response = requests.get(API_URL, params=params, timeout=self.timeout)
         token = self._get_repsonse_dict(response)['access_token']
         return token
 
@@ -47,7 +48,7 @@ class RoadRunnrClient(object):
         API_URL = "{0}v1/orders/{1}".format(self.SERVER_URL, order_id)
         if action and (action in valid_actions):
             API_URL = API_URL + "/" + action
-        response = requests.get(API_URL, headers=self.HEADERS)
+        response = requests.get(API_URL, headers=self.HEADERS, timeout=self.timeout)
         return self._get_repsonse_dict(response)
 
     def create_order(self, order_data, ship=False):
@@ -74,7 +75,7 @@ class RoadRunnrClient(object):
 
     def get_localities(self, default_response=False):
         API_URL = "{0}locality/all_localities".format(self.SERVER_URL)
-        response = requests.get(API_URL, headers=self.HEADERS)
+        response = requests.get(API_URL, headers=self.HEADERS, timeout=self.timeout)
         resp = self._get_repsonse_dict(response)
         if default_response:
             return resp
